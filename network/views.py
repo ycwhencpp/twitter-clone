@@ -115,7 +115,7 @@ def editpost(request):
         print(tweet)
         tweet.save()
         print("6")
-        return JsonResponse({"message":"post updated successfully","likes_count":str(tweet.likecount())},status=201)
+        return JsonResponse({"message":"post updated successfully","likes_count":str(tweet.likecount()),"retweetcount":str(tweet.retweetcount())},status=201)
     
     return JsonResponse({"error":"Only PUT request is Valid"},status=400)
 

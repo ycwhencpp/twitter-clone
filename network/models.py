@@ -26,6 +26,8 @@ class make_tweet(models.Model):
         }
     def likecount(self):
         return self.liked.all().count()
+    def retweetcount(self):
+        return self.retweet.all().count()
 
     class Meta:
         ordering=['-time_stamp']
