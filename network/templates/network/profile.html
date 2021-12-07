@@ -1,0 +1,10 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+<div class="profile">
+    <h3 class="username">{{profile.mutual.username}}</h3>
+    <p class="followers"> following:{{profile.followingcount}}</p>
+    <p class="following"> followers:{{profile.followerscount}}</p>
+</div>
+{% endblock %}

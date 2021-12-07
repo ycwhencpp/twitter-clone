@@ -44,4 +44,11 @@ class tweet_comment(models.Model):
     timestamp=models.DateTimeField(auto_now_add=True)
 
 class mutuals(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="mutual")
     is_followed=models.ManyToManyField(User,related_name="follower",blank=True)
+    is_following=models.ManyToManyField(User,related_name="following",blank=True)
+
+    def followerscount(self):
+        return self.is_followed.all().count()
+    def followingcount(self):
+        return self.is_following.all().count()

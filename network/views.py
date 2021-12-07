@@ -6,7 +6,7 @@ from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User,make_tweet,tweet_comment
+from .models import User,make_tweet, mutuals,tweet_comment
 from .forms import tweetform,commentform
 
 from django.contrib.auth.decorators import login_required
@@ -119,7 +119,16 @@ def editpost(request):
     
     return JsonResponse({"error":"Only PUT request is Valid"},status=400)
 
-
+def view_profile(request,username):
+    user_details=User.objects.get(username=username)
+    print(user_details.follower)
+    print(user_details.following)
+    profile=mutuals.objects.filter(user=user_details)
+    print(profile.is_followed)
+    return render(request,"network/profile.html",{
+        "profile":profile,
+        "username":username,
+    })
 
 
 
