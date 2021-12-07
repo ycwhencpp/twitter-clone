@@ -61,7 +61,32 @@ like_button.forEach((button) => {
         else {
           console.log(data.message);
           like_count.innerHTML = `Likes:${data.likes_count}`;
-          button.innerHTML == "Like" ? (button.innerHTML = "Like") : (button.innerHTML = "Unlike");
+          button.innerHTML == "Like" ? (button.innerHTML = "Unlike") : (button.innerHTML = "Like");
+        }
+      });
+  };
+});
+
+const rt_button = document.querySelectorAll(".rt-button");
+rt_button.forEach((button) => {
+  button.onclick = () => {
+    console.log(button.innerHTML);
+    const id = button.dataset.id;
+    const rt_count = document.querySelector(`#rt-post-${id}`);
+    fetch("/editpost", {
+      method: "PUT",
+      body: JSON.stringify({
+        id: id,
+        retweet: true,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) console.log(data.error);
+        else {
+          console.log(data.message);
+          rt_count.innerHTML = `Retweets:${data.retweetcount}`;
+          button.innerHTML == "Retweet" ? (button.innerHTML = "Undo") : (button.innerHTML = "Retweet");
         }
       });
   };
