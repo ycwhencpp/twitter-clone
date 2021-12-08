@@ -120,20 +120,72 @@ def editpost(request):
     return JsonResponse({"error":"Only PUT request is Valid"},status=400)
 
 def view_profile(request,username):
-    user_details=User.objects.get(username=username)
-    print(user_details.follower)
-    print(user_details.following)
-    profile=mutuals.objects.filter(user=user_details)
-    print(profile.is_followed)
+    viewed_profile=User.objects.get(username=username)
+    print(viewed_profile.follower)
+    print(viewed_profile.following)
+    profile=mutuals.objects.filter(user=viewed_profile)
+    print(viewed_profile.follower.all())
+    print(viewed_profile.following.all())
     return render(request,"network/profile.html",{
-        "profile":profile,
+        "profile":viewed_profile,
         "username":username,
     })
 
+@login_required
+@csrf_exempt
+def editprofile(request):
+    if request.method =="PUT":
+        data=json.loads(request.body)
+        username=data.get("username")
+        
+        print("1")
+        try:
+            viewed_profile=User.objects.get(username=username)
+            # user=request.user
+            profile=mutuals.objects.filter(user=viewed_profile)
+            user=User.objects.get(id=request.user.id)
+            print("3")
+            print("4")
+        except:
+            print("5")
+            return JsonResponse({"error":"Cant find user details"},status=404)
+        print("profile:",profile)
+        if data["following"]:
+            print("6")
+            if request.user != viewed_profile.username:
+                print("7")
+                if request.user in viewed_profile.follower.all():
+                    print("9")
+                    viewed_profile.follower.remove(user)
+                    print("10")
+                    user.following.remove(viewed_profile)
+                else:
+                    print("11")
+                    viewed_profile.follower.add(user)
+                    print("12")
+                    user.following.add(view_profile)
+            print("8")
+            return JsonResponse({"error":"Cant follow Yourself"},status=400)
+        
+        user.save()
+        viewed_profile.save()
+        print("13")
+        return JsonResponse({"message":"Followed or Unfollowed Succesfully","followerscount":viewed_profile.follower.all().count(),"followingcount":viewed_profile.following.all().count()})
 
 
 
 
+
+
+
+
+
+def test(request,username):
+    a=mutuals.objects.filter(user=User.objects.get(username=username))
+    print(a.all())
+    user=request.user
+    print("down")
+    print(user.tweet.all())
 
 
 
