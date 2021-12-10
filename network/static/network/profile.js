@@ -19,9 +19,9 @@ follow_btn.onclick = () => {
       if (data.error) console.log(data.error);
       else {
         console.log(data.message);
-        follower_count.innerHTML = data.followercount;
-        following_count.innerHTML = data.followingcount;
-        follow_btn.innerHTML == "follow" ? (follow_btn.innerHTML = "unfollow") : (follow_btn.innerHTML = "follow");
+        follower_count.innerHTML = `followers:${data.followerscount}`;
+        following_count.innerHTML = `following:${data.followingcount}`;
+        follow_btn.innerHTML == "Follow" ? (follow_btn.innerHTML = "unfollow") : (follow_btn.innerHTML = "Follow");
       }
     })
     .catch((error) => console.log(error));

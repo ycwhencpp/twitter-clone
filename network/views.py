@@ -6,7 +6,7 @@ from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User,make_tweet, mutuals,tweet_comment
+from .models import User,make_tweet,tweet_comment
 from .forms import tweetform,commentform
 
 from django.contrib.auth.decorators import login_required
@@ -27,58 +27,15 @@ def index(request):
         "tweets":tweets,
         "tweet_form":tweetform,
     })
-# @login_required
-# @csrf_exempt
-# def create_tweet(request):
-#     if request.method!="POST":
-#         return JsonResponse({"Error":"POST request required."},status=400)
-    
-#     data=json.loads(request.body)
-#     if data=={""}:
-#         return JsonResponse({"error":"tweet can't be empty"},status=400)
 
-#     content=data.get("content","")
-#     tweet= make_tweet(
-#         author=request.user,
-#         content=content,
-#     )
-#     tweet.save()
-#     return JsonResponse({"message": "tweet successfully Posted."}, status=201)
 
-# @login_required
-# @csrf_exempt
-# def edit_post(request,pk):
-
-#     try:
-#         tweet=make_tweet.objects.get(user=request.user,id=pk)
-#     except make_tweet.DoesNotExist:
-#         return JsonResponse({"error":"Tweet not found"},status=404)
-    
-#     if request.method == "GET":
-#         return JsonResponse(tweet.serialize())
-    
-#     elif request.method == "PUT":
-#         data=json.loads(request.body)
-#         if data.get("content") is not None:
-#             tweet.content=data["content"]
-#         if data.get("liked") is not None:
-#             tweet.liked=data["liked"]
-#         if data.get("retweet") is not None:
-#             tweet.retweet=data["retweet"]
-#         tweet.save()
-#         return HttpResponse(status=204)
-
-#     else:
-#         return JsonResponse({"error":"GET or PUT request Required"},status=400)
             
 @login_required
 @csrf_exempt
 def editpost(request):
     if request.method == "PUT":
         data=json.loads(request.body)
-        print("data:",data)
-        id=data.get("id","")
-        print("id:",id)
+
         try:
             tweet=make_tweet.objects.get(id=id)
         except make_tweet.DoesNotExist:
@@ -86,49 +43,36 @@ def editpost(request):
         content=data.get("content","")
         like=data.get("liked","")
         rt=data.get("retweet","")
-        print("content:",content)
-        print("liked:",like)
-        print("retweet:",rt)
+
         if content:
-            print("1")
+            
             if request.user == tweet.author :
-                print("2")
+                
                 tweet.content=content
-                print("3")
-                print(tweet.content)
             else:
                 return JsonResponse({"error":"can edit your post only"},status=400)
-        print("-1")
+        
         if like:
-            print("4")
+            
             if request.user in tweet.liked.all():
                 tweet.liked.remove(request.user)
             else:
                 tweet.liked.add(request.user)
         if rt:
-            print("4")
+            
             if request.user in tweet.retweet.all():
                 tweet.retweet.remove(request.user)
             else:
                 tweet.retweet.add(request.user)
-        print("5")
-        print(tweet)
         tweet.save()
-        print("6")
         return JsonResponse({"message":"post updated successfully","likes_count":str(tweet.likecount()),"retweetcount":str(tweet.retweetcount())},status=201)
     
     return JsonResponse({"error":"Only PUT request is Valid"},status=400)
 
 def view_profile(request,username):
     viewed_profile=User.objects.get(username=username)
-    print(viewed_profile.follower)
-    print(viewed_profile.following)
-    profile=mutuals.objects.filter(user=viewed_profile)
-    print(viewed_profile.follower.all())
-    print(viewed_profile.following.all())
     return render(request,"network/profile.html",{
         "profile":viewed_profile,
-        "username":username,
     })
 
 @login_required
@@ -137,76 +81,23 @@ def editprofile(request):
     if request.method =="PUT":
         data=json.loads(request.body)
         username=data.get("username")
-        
-        print("1")
         try:
-            viewed_profile=User.objects.get(username=username)
-            # user=request.user
-            profile=mutuals.objects.filter(user=viewed_profile)
-            user=User.objects.get(id=request.user.id)
-            print("3")
-            print("4")
+            viewed_user=User.objects.get(username=username)
+            current_user=User.objects.get(username=request.user)
         except:
-            print("5")
             return JsonResponse({"error":"Cant find user details"},status=404)
-        print("profile:",profile)
         if data["following"]:
-            print("6")
-            if request.user != viewed_profile.username:
-                print("7")
-                if request.user in viewed_profile.follower.all():
-                    print("9")
-                    viewed_profile.follower.remove(user)
-                    print("10")
-                    user.following.remove(viewed_profile)
-                else:
-                    print("11")
-                    viewed_profile.follower.add(user)
-                    print("12")
-                    user.following.add(view_profile)
-            print("8")
-            return JsonResponse({"error":"Cant follow Yourself"},status=400)
-        
-        user.save()
-        viewed_profile.save()
-        print("13")
-        return JsonResponse({"message":"Followed or Unfollowed Succesfully","followerscount":viewed_profile.follower.all().count(),"followingcount":viewed_profile.following.all().count()})
+            if current_user == viewed_user:
+                return JsonResponse({"error":"cant follow yourself"},status=400)
+            if viewed_user in current_user.is_following.all():
+                print("followed")
+                viewed_user.followers.remove(current_user)
+            else:
+                print("non followed")
+                viewed_user.followers.add(current_user)
 
-
-
-
-
-
-
-
-
-def test(request,username):
-    a=mutuals.objects.filter(user=User.objects.get(username=username))
-    print(a.all())
-    user=request.user
-    print("down")
-    print(user.tweet.all())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return JsonResponse({"message":"Followed or Unfollowed Succesfully","followerscount":viewed_user.followers.all().count(),"followingcount":viewed_user.is_following.all().count()})
+    return JsonResponse({"error":"only Put request is valid"},status=400)
 
 
 def login_view(request):
