@@ -4,6 +4,10 @@ from django.db import models
 
 class User(AbstractUser):
     pass
+    is_following=models.ManyToManyField("self",related_name="followers",blank=True,symmetrical=False)
+    def __str__(self):
+        return self.username
+
 
 
 class make_tweet(models.Model):
@@ -34,8 +38,6 @@ class make_tweet(models.Model):
 
     
 
-
-
 class tweet_comment(models.Model):
     comment=models.CharField(max_length=1000,null=False)
     author=models.ForeignKey(User,on_delete=models.CASCADE,related_name="comment")
@@ -43,12 +45,4 @@ class tweet_comment(models.Model):
     is_liked=models.ManyToManyField(User,related_name="comment_like",blank=True)
     timestamp=models.DateTimeField(auto_now_add=True)
 
-class mutuals(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="mutual")
-    is_followed=models.ManyToManyField(User,related_name="follower",blank=True)
-    is_following=models.ManyToManyField(User,related_name="following",blank=True)
 
-    def followerscount(self):
-        return self.is_followed.all().count()
-    def followingcount(self):
-        return self.is_following.all().count()

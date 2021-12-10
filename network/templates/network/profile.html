@@ -2,9 +2,11 @@
 
 {% block body %}
 
-<div class="profile">
-    <h3 class="username">{{profile.mutual.username}}</h3>
-    <p class="followers"> following:{{profile.followingcount}}</p>
-    <p class="following"> followers:{{profile.followerscount}}</p>
+<div class="profile" id="profile-{{profile.id}}">
+    <h3 class="username">{{profile.username}}</h3>
+    <p class="followers"> followers:{{profile.followers.all.count}}</p>
+    <p class="following"> following:{{profile.is_following.all.count}}</p>
+    <button  class="follow-button"data-username={{profile.username}}>Follow</button>
 </div>
+
 {% endblock %}
