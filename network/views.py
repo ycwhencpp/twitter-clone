@@ -1,9 +1,10 @@
 import json
 from django.contrib.auth import authenticate, login, logout
+from django.core.checks import messages
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http.response import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from .models import User,make_tweet,tweet_comment
@@ -94,19 +95,37 @@ def editpost(request):
 
 def view_profile(request,username):
 
-    # getting viewed_user profile and its following info
+    # getting viewed_user profile info
     viewed_profile=User.objects.get(username=username)
-    viewed_profile_following=viewed_profile.is_following.all()
+ 
+    # querying db and getting their tweets
+    tweets=viewed_profile.tweet.all()
 
-    # looping over all followers and getting their tweets
-    for users in viewed_profile_following:
-        tweet=users.tweet.all()
     # pagination
-    paginate=Paginator(tweet,10)
+    print(tweets)
+    paginate=Paginator(tweets,10)
     page_number=request.GET.get("page")
     page_obj=paginate.get_page(page_number)
     return render(request,"network/profile.html",{
         "profile":viewed_profile,
+        "page_obj":page_obj,
+    })
+
+@login_required()
+def following(request):
+
+    # getting current_user profile and its following info
+    current_user=User.objects.get(username=request.user.username)
+    current_user_following=current_user.is_following.all()
+
+    # looping over all followers and getting their tweets
+    tweet=[users.tweet.all() for users in current_user_following]
+
+    # paginating 
+    paginate=Paginator(tweet if len(tweet)==0 else tweet[0],10)
+    page_number=request.GET.get("page")
+    page_obj=paginate.get_page(page_number)
+    return render(request,"network/following.html",{
         "page_obj":page_obj,
     })
 
@@ -147,6 +166,40 @@ def editprofile(request):
         # sending followers count and following count so that we can update html instantly with the help of js 
         return JsonResponse({"message":"Followed or Unfollowed Succesfully","followerscount":viewed_user.followers.all().count(),"followingcount":viewed_user.is_following.all().count()})
     return JsonResponse({"error":"only Put request is valid"},status=400)
+
+
+@login_required
+def comment(request,id):
+    if request.method == "POST":
+
+        # entering content in commentform
+        form=commentform(request.POST)
+
+        # checking wether form is valid or not 
+        if form.is_valid():
+
+            # providing other details to commentform 
+            form.instance.author=request.user
+            form.instance.tweet=make_tweet.objects.get(pk=id)
+            form.save()
+            return HttpResponseRedirect(reverse("view_tweet",args=[id]))
+
+        messages.Error(" Whoops!!! An error occured while posting your comment Try again.")
+        return HttpResponseRedirect(reverse("view_tweet",args=[id]))
+    return redirect(index)
+
+
+def view_tweet(request,id):
+
+    # getting particular tweet with the incoming id 
+    tweet=make_tweet.objects.get(pk=id)
+    comments=tweet_comment.objects.filter(tweet=tweet).all()
+    return render(request,"network/viewtweet.html",{
+        "tweet":tweet,
+        "commentform":commentform,
+        "comments":comments
+    })
+
 
 
 def login_view(request):

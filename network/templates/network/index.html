@@ -45,9 +45,9 @@
 
 <div class="tweets">
     {% for tweet in page_obj %}
-    <div class="tweet" id='tweet-{{tweet.id}}'>
+    <div class="tweet" id='tweet-{{tweet.id}}'onclick="location.href='{% url 'view_tweet' tweet.id %}'" >
         <div class="tweet-info">
-            <p class="tweet-author">Posted By:{{tweet.author}}</p>
+            <p class="tweet-author" onclick="location.href='{% url 'view_profile' tweet.author %}'">Posted By:{{tweet.author}}</p>
             <p class="timestamp">Created at:{{tweet.time_stamp}}</p>
         </div>
         <h3 class="tweet-content" id="tweet-content-{{tweet.id}}">{{tweet.content}}</h3>
