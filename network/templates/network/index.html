@@ -8,8 +8,43 @@
         <input type="submit" class="btn btn-primary" value="Tweet">
     </form>
 </div>
+<nav aria-label="page navigation">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1">First</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; </a>
+      </li>
+    {% else %}
+       <li class="page-item disabled">
+         <a class="page-link" href="#">&laquo;</a>
+       </li>
+    {% endif %}
+      <li class="page-item disabled" aria-current="page">
+        <span class=" current page-link">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+      </li>
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a  class="page-link" href="?page={{ page_obj.next_page_number }}"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a  class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><span aria-hidden="true">Last</span></a>
+      </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a  class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+    {% endif %}
+  </ul>
+</nav>
+
+
 <div class="tweets">
-    {% for tweet in tweets %}
+    {% for tweet in page_obj %}
     <div class="tweet" id='tweet-{{tweet.id}}'>
         <div class="tweet-info">
             <p class="tweet-author">Posted By:{{tweet.author}}</p>
@@ -25,4 +60,8 @@
     <hr>
     {% endfor %}
 </div>
+<hr>
+
+
+
 {% endblock %}
