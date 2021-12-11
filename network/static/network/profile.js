@@ -1,6 +1,7 @@
-console.log("hey");
+// button
 const follow_btn = document.querySelector(".follow-button");
 
+// follow / unfollow user
 follow_btn.onclick = () => {
   const profile_username = follow_btn.dataset.username;
   console.log(profile_username);

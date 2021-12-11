@@ -67,6 +67,7 @@ like_button.forEach((button) => {
   };
 });
 
+// retweet  post
 const rt_button = document.querySelectorAll(".rt-button");
 rt_button.forEach((button) => {
   button.onclick = () => {
