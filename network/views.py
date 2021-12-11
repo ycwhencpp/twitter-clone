@@ -12,6 +12,7 @@ from .forms import tweetform,commentform
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
+from django.core.paginator import Paginator
 
 def index(request):
     if request.user.is_authenticated:
@@ -23,9 +24,13 @@ def index(request):
             return HttpResponseRedirect(reverse("index"))
 
     tweets=make_tweet.objects.all()
+    paginator=Paginator(tweets,10)
+    page_number=request.GET.get("page")
+    page_obj=paginator.get_page(page_number)
     return render(request, "network/index.html",{
-        "tweets":tweets,
+        "page_obj":page_obj,
         "tweet_form":tweetform,
+        
     })
 
 
@@ -96,10 +101,13 @@ def view_profile(request,username):
     # looping over all followers and getting their tweets
     for users in viewed_profile_following:
         tweet=users.tweet.all()
-
+    # pagination
+    paginate=Paginator(tweet,10)
+    page_number=request.GET.get("page")
+    page_obj=paginate.get_page(page_number)
     return render(request,"network/profile.html",{
         "profile":viewed_profile,
-        "tweets":tweet
+        "page_obj":page_obj,
     })
 
 
