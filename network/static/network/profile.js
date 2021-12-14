@@ -22,7 +22,7 @@ follow_btn.onclick = () => {
         console.log(data.message);
         follower_count.innerHTML = `followers:${data.followerscount}`;
         following_count.innerHTML = `following:${data.followingcount}`;
-        follow_btn.innerHTML == "Follow" ? (follow_btn.innerHTML = "unfollow") : (follow_btn.innerHTML = "Follow");
+        follow_btn.innerHTML == "Follow" ? (follow_btn.innerHTML = "UnFollow") : (follow_btn.innerHTML = "Follow");
       }
     })
     .catch((error) => console.log(error));

@@ -12,7 +12,9 @@ edit_button.forEach((button) => {
     tweet_content.innerHTML = ` <form id="edit-form-${button.dataset.id}" data-id="${button.dataset.id}" class="edit-form" method="post" >
                       <textarea name="content" cols="40" rows="5" class="form-control content" 
                       id="tweet-content-edit" autofocus="on"  maxlength="1000" required="">${tweet_content.innerHTML}</textarea>
-                      <input type="submit" class="btn btn-primary" value="Save">
+                      <input type="submit" class="btn btn-primary" value="Save" style="background:#00acee;
+                       border: 1px solid #00acee;border-radius: 20px 20px;
+                      padding:7px 20px;">
                       </form> `;
 
     document.querySelector(`#edit-form-${button.dataset.id}`).onsubmit = () => {

@@ -6,14 +6,15 @@
         <h2>Home</h2>
       </div>
       {% if user.is_authenticated %}
-      <div class="post-tweet" style="border-radius: 0;border:none">
-          <form action="{% url 'index' %}" method="post" id="tweet-form" style="border-radius: 0;border:none">
+      <div class="post-tweet d-flex mb-3" style="border-radius: 0;border:none; background:#fff;">
+        <img class=" form-profile-img" src="https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png" alt="">
+          <form action="{% url 'index' %}" method="post" id="tweet-form" style="border-radius: 0;border:none" >
               {% csrf_token %}
               <div class="form-group compose-tweet-textarea" style="border-radius: 0;border:none">
                 {{tweet_form}}
                 </div>
               
-              <input type="submit" class="btn btn-primary compose-tweet-btn" value="Tweet" >
+              <input type="submit" class="btn btn-primary compose-tweet-btn" style="background: #00acee; border:1px solid #00acee" value="Tweet" >
           </form>
       </div>
       {% else %}
@@ -24,11 +25,11 @@
         <div class=" tweet card  mb-3 border-light " id='tweet-{{tweet.id}}'>
           <div class="card-body">
             <div class="card-title d-flex justify-content-between  "> 
-              <div class="tweet-info d-flex">
+              <div class="tweet-info d-flex" onclick="location.href='{% url 'view_profile' tweet.author %}'">
                 <h5>{{tweet.author}}</h5> <span class="ml-2">@{{tweet.author.username}}</span> <span class="ml-1">-</span> <span>{{tweet.time_stamp|date:"d M"}}</span>
               </div>
               {% if request.user == tweet.author %}
-                <button class="edit_button " data-id="{{tweet.id}}">Edit</button>
+                <button class="edit_button text-muted" data-id="{{tweet.id}}">Edit</button>
               {% endif %}
             </div>
               <p class="card-text " id="tweet-content-{{tweet.id}}">{{tweet.content}}</p>
