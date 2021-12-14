@@ -1,25 +1,12 @@
 {% extends "network/layout.html" %}
-
+{% load static %}
 {% block body %}
-<div class="home-page">
+
+<div class="following-page">
       <div class="title sticky-top pt-3">
-        <h2>Home</h2>
+        <h2>Following</h2>
       </div>
-      {% if user.is_authenticated %}
-      <div class="post-tweet" style="border-radius: 0;border:none">
-          <form action="{% url 'index' %}" method="post" id="tweet-form" style="border-radius: 0;border:none">
-              {% csrf_token %}
-              <div class="form-group compose-tweet-textarea" style="border-radius: 0;border:none">
-                {{tweet_form}}
-                </div>
-              
-              <input type="submit" class="btn btn-primary compose-tweet-btn" value="Tweet" >
-          </form>
-      </div>
-      {% else %}
-      <div style="height:3rem"></div>
-      {% endif %}
-      <div class="tweets ">
+      <div class=" followers-tweets tweets mt-3">
         {% for tweet in page_obj %}
         <div class=" tweet card  mb-3 border-light " id='tweet-{{tweet.id}}'>
           <div class="card-body">
@@ -31,7 +18,7 @@
                 <button class="edit_button " data-id="{{tweet.id}}">Edit</button>
               {% endif %}
             </div>
-              <p class="card-text " id="tweet-content-{{tweet.id}}">{{tweet.content}}</p>
+              <p class="card-text">{{tweet.content}}</p>
               <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
           <div class="card-footer text-muted d-flex justify-content-around">
@@ -56,45 +43,51 @@
             </div>
           </div>
         </div>
+        {% empty %}
+        <div class="empty-tweets d-flex flex-column align-items-center mt-4 ">
+            <p>Oops!! seems like your followers dont have any tweet or you havent followed anyone.</p>
+            <p>Follow someone to view their tweets or view all tweets <a href="{% url 'index' %}">Here</a></p>
+        </div>
         {% endfor %}
     </div>
 
-
+<!-- pagination -->
 
 <nav aria-label="page navigation">
-  <ul class="pagination justify-content-center">
-    {% if page_obj.has_previous %}
-      <li class="page-item">
-        <a class="page-link" href="?page=1">First</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; </a>
-      </li>
-    {% else %}
-       <li class="page-item disabled">
-         <a class="page-link" href="#">&laquo;</a>
-       </li>
-    {% endif %}
-      <li class="page-item disabled" aria-current="page">
-        <span class=" current page-link">
-          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-        </span>
-      </li>
-    {% if page_obj.has_next %}
-      <li class="page-item">
-        <a  class="page-link" href="?page={{ page_obj.next_page_number }}"><span aria-hidden="true">&raquo;</span></a>
-      </li>
-      <li class="page-item">
-        <a  class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><span aria-hidden="true">Last</span></a>
-      </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a  class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">First</a>
         </li>
-    {% endif %}
-  </ul>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; </a>
+        </li>
+      {% else %}
+         <li class="page-item disabled">
+           <a class="page-link" href="#">&laquo;</a>
+         </li>
+      {% endif %}
+        <li class="page-item disabled" aria-current="page">
+          <span class=" current page-link">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+          </span>
+        </li>
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a  class="page-link" href="?page={{ page_obj.next_page_number }}"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+        <li class="page-item">
+          <a  class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><span aria-hidden="true">Last</span></a>
+        </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a  class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
+          </li>
+      {% endif %}
+    </ul>
 </nav>
 </div>
 
 {% endblock %}
+
 

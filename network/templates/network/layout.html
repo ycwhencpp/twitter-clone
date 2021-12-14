@@ -6,10 +6,107 @@
         <title>{% block title %}Social Network{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/4ae7665644.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     </head>
     <body>
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-3  d-flex sidebar sticky-top " >
+                <nav class="navbar d-flex flex-column justify-content-between mt-3 ">
+                    <ul class="nav flex-column justify-content-between">
+                        <a href="{% url 'index' %}" class="logo " ><i class="fas fa-biohazard"></i></a>
+                        {% if user.is_authenticated %}
+                              <li class="nav-item">
+                                <a class="nav-link" href="{% url 'index' %}"><i class="fas  fa-home"></i> <span class ="ml-3">Home</span></a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="{% url 'following' %}"><i class="fas fa-hashtag"></i> <span class ="ml-3">Explore</span></a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="#"><i class="far fa-bell"></i> <span class ="ml-3">Notifications</span></a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="#"><i class="far fa-envelope"></i> <span class ="ml-3">Messages</span></a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="#"><i class="far fa-bookmark"></i> <span class ="ml-3">Bookmarks</span></a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="#"><i class="far fa-clipboard"></i> <span class ="ml-3">Lists</span></a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="{% url 'view_profile' user.username %}"><i class="far fa-user"></i> <span class ="ml-3">Profile</span></a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="#"><i class="fas fa-ellipsis-h"></i> <span class ="ml-3">More</span></a>
+                              </li>
+                              <li class="nav-item " style="width: 87%; font-size: 16px; height: 50px; line-height: 35px">
+                                  <a class="nav-link logout-btn" style="width:100%" href="{% url 'logout' %}">Logout</a>
+                              </li>
+                          {% else %}
+                              <li class="nav-item">
+                                  <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="{% url 'register' %}">Register</a>
+                              </li>
+                      {% endif %}
+                    </ul>
+                      <div class="user ">
+                        anurag
+                      </div>
+                </nav>
+            </div>
+              <div class=" body col-md-6 " style="padding: 0;">
+                {% block body %}
+                {% endblock %}
+              </div>
+              <div class="right-side col-md-3 sticky-top" style="padding: 15px 25px 0 25px;">
+                {% if not user.is_authenticated %}
+                    <div class="card w-100" style="border-radius: 15px">
+                          <div class="card-body">
+                              <h5 class="card-title" style="margin-bottom: 2px"><strong>Welcome to the Network!</strong></h5>
+                              <p class="card-text"><small class="text-muted"></small></p>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                              <a style="width: 75%" class="btn register-btn mb-3" href="{% url 'register' %}">Register</a>
+                              <a style="width: 75%" class="btn login-btn" href="{% url 'login' %}">Log In</a>
+                          </div>
+                    </div>
+                {% else %}
+                    <div class="card w-100 " style="border-radius: 15px; overflow: hidden; border-color: transparent">
+                        <div class="card-header" style="font-weight: bolder; font-size: 18px; background-color: rgb(245, 248, 250); padding-left: 16px">You might like</div>
+                          <div class="card-body card-border d-flex  pt-3" style="padding: 0; background-color: rgb(245, 248, 250);">
+                                <div class="web-image">
+                                    <img src="{% static 'network/images/rassturant.png' %}" alt="">
+                                </div>
+                                <div class="web-link"> <a href="#">Rasturaant Static Website</a> </div>
+                          </div>
+                        
+                          <div class="card-body card-border d-flex   pt-3" style="padding: 0; background-color: rgb(245, 248, 250);">
+                                <div class="web-image">
+                                    <img src="{% static 'network/images/nilaamkar.png' %}" alt="">
+                                </div>
+                                <div class="web-link"> <a href="#">Nilaamkar(An Ecommerce) Auction Website</a> </div>
+                          </div>
+                          <div class="card-body  d-flex   pt-3" style="padding: 0; background-color: rgb(245, 248, 250);">
+                                <div class="web-image">
+                                    <img src="{% static 'network/images/portfolio.png' %}" alt="">
+                                </div>
+                                <div class="web-link"> <a href="#">Own Portfolio</a> </div>
+                          </div>
+                        </div>
+                        
+                {% endif %}
+                </div>
+            </div>
+            </div>
+        <script src="{% static 'network/editpost.js' %}"></script>
+    </body>
+</html>
+
+
+        <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{% url 'index' %}">Network</a>
           
             <div>
@@ -39,13 +136,22 @@
                 {% endif %}
               </ul>
             </div>
-          </nav>
+          </nav> -->
         
-        <div class="body">
-            {% block body %}
-            {% endblock %}
-        </div>
-        <script src="{% static 'network/editpost.js' %}"></script>
-        
-    </body>
-</html>
+          <!-- <nav class="nav flex-column ">
+            <div class="links">
+                <a href="{% url 'index' %}"><i class="fas fa-biohazard"></i></i></a>
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link" href="#">Explore</a>
+                <a class="nav-link" href="#">Notifications</a>
+                <a class="nav-link" href="#">Messages</a>
+                <a class="nav-link" href="#">Bookmarks</a>
+                <a class="nav-link" href="#">Lists</a>
+                <a class="nav-link" href="#">Profile</a>
+                <a class="nav-link" href="#">More</a>
+                <a class="nav-link" href="#">Logout</a>
+            </div>
+        </nav>
+        <div class="user ">
+            anurag
+        </div> -->
