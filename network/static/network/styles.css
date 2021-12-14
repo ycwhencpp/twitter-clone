@@ -16,7 +16,7 @@ body{
 }
 .sidebar{
     height:100vh;
-    padding:0 40px;
+    /* padding:0 40px; */
     width:100%;
    
 }
