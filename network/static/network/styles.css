@@ -7,6 +7,13 @@ body{
     margin: 0;
     padding:0;
 }
+.container{
+    max-width:1408px;
+}
+.row{
+    width: 1309px;
+    margin-right:100px
+}
 .sidebar{
     height:100vh;
     padding:0 40px;
@@ -45,7 +52,7 @@ a.nav-link i{
     border-radius:40px 40px;
     background-color: rgb(235, 228, 228);
 }
-.register-btn,.login-btn,.logout-btn{
+.register-btn,.login-btn,.logout-btn,.follow-button{
     padding:10px 20px ;
     color:#00acee;
     background:#fff;
@@ -62,7 +69,13 @@ a.nav-link i{
     margin-top:10px;
 
 }
-.register-btn:hover,.login-btn:hover,.logout-btn:hover{
+.follow-button{
+    height: 45px;
+    margin: 0;
+    margin-top: 29px;
+    padding: 8px 30px;
+}
+.register-btn:hover,.login-btn:hover,.logout-btn:hover,.follow-button:hover{
     background:#00acee;
     color:#fff;
 }
@@ -98,6 +111,18 @@ a.nav-link i{
      
 }
 
+.profile {
+    width: 100%;
+     padding-top:20px;
+     padding-bottom:8px;
+    background: #fff;
+}
+.profile-img{
+    width:80px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+}
 .tweet{
     width:80% !important;
     margin-right: auto;
@@ -125,7 +150,7 @@ position: relative;
 }
 .compose-tweet-btn{
     position:absolute;
-    top:9.8rem;
+    top:9.3rem;
     right:2rem;
     border-radius: 20px 20px;
     padding:7px 20px;

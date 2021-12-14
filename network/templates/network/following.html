@@ -6,6 +6,20 @@
       <div class="title sticky-top pt-2">
         <h2>Following</h2>
       </div>
+      {% if user.is_authenticated %}
+      <div class="post-tweet" style="border-radius: 0;border:none">
+          <form action="{% url 'index' %}" method="post" id="tweet-form" style="border-radius: 0;border:none">
+              {% csrf_token %}
+              <div class="form-group compose-tweet-textarea" style="border-radius: 0;border:none">
+                {{tweet_form}}
+                </div>
+              
+              <input type="submit" class="btn btn-primary compose-tweet-btn" value="Tweet" >
+          </form>
+      </div>
+      {% else %}
+      <div style="height:3rem"></div>
+      {% endif %}
       <div class=" followers-tweets tweets mt-3">
         {% for tweet in page_obj %}
         <div class=" tweet card  mb-3 border-light " id='tweet-{{tweet.id}}'>

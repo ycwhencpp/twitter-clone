@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
               <div class="col-md-3  d-flex sidebar sticky-top " >
                 <nav class="navbar d-flex flex-column justify-content-between mt-3 ">
@@ -54,8 +54,8 @@
                       {% endif %}
                     </ul>
                       <div class="user-sidebar ">
-                        <p class="mb-0"><strong>Anurag</strong></p>
-                        <p class="text-muted">@{{user.username}}</p>
+                        <p class="mb-0"><strong>@{{user.username}}</strong></p>
+                        <p class="text-muted">{{user.email}}</p>
                       </div>
                 </nav>
             </div>
@@ -75,7 +75,7 @@
                           </div>
                     </div>
                 {% else %}
-                    <div class="card w-100 " style="border-radius: 15px; overflow: hidden; border-color: transparent">
+                    <div class="card  " style="border-radius: 15px; overflow: hidden; border-color: transparent;width:398px;">
                         <div class="card-header" style="font-weight: bolder; font-size: 18px; background-color: rgb(245, 248, 250); padding-left: 16px">You might like</div>
                           <div class="card-body card-border d-flex  pt-3" style="padding: 0; background-color: rgb(245, 248, 250);">
                                 <div class="web-image">

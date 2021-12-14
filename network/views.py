@@ -128,6 +128,7 @@ def following(request):
     page_obj=paginate.get_page(page_number)
     return render(request,"network/following.html",{
         "page_obj":page_obj,
+        "tweet_form":tweetform,
     })
 
 
