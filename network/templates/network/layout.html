@@ -41,8 +41,8 @@
                               <li class="nav-item">
                                   <a class="nav-link" href="#"><i class="fas fa-ellipsis-h"></i> <span class ="ml-3">More</span></a>
                               </li>
-                              <li class="nav-item " style="width: 87%; font-size: 16px; height: 50px; line-height: 35px">
-                                  <a class="nav-link logout-btn" style="width:100%" href="{% url 'logout' %}">Logout</a>
+                              <li class="nav-item">
+                                  <a class="nav-link logout-btn"  href="{% url 'logout' %}">Logout</a>
                               </li>
                           {% else %}
                               <li class="nav-item">
@@ -53,8 +53,9 @@
                               </li>
                       {% endif %}
                     </ul>
-                      <div class="user ">
-                        anurag
+                      <div class="user-sidebar ">
+                        <p class="mb-0"><strong>Anurag</strong></p>
+                        <p class="text-muted">@{{user.username}}</p>
                       </div>
                 </nav>
             </div>
