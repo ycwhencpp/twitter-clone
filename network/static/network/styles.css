@@ -52,11 +52,7 @@ a.nav-link i{
     border-radius:40px 40px;
     background-color: rgb(235, 228, 228);
 }
-<<<<<<< HEAD
-.register-btn,.login-btn,.logout-btn{
-=======
 .register-btn,.login-btn,.logout-btn,.follow-button{
->>>>>>> twitter/UI-fix
     padding:10px 20px ;
     color:#00acee;
     background:#fff;
@@ -73,9 +69,6 @@ a.nav-link i{
     margin-top:10px;
 
 }
-<<<<<<< HEAD
-.register-btn:hover,.login-btn:hover,.logout-btn:hover{
-=======
 .follow-button{
     height: 45px;
     margin: 0;
@@ -83,7 +76,6 @@ a.nav-link i{
     padding: 8px 30px;
 }
 .register-btn:hover,.login-btn:hover,.logout-btn:hover,.follow-button:hover{
->>>>>>> twitter/UI-fix
     background:#00acee;
     color:#fff;
 }
@@ -100,10 +92,6 @@ a.nav-link i{
     background:white;
     width:100%; 
     border-bottom:.5px solid #ced4da;
-<<<<<<< HEAD
-=======
-
->>>>>>> twitter/UI-fix
 
 
 }
@@ -114,8 +102,6 @@ a.nav-link i{
     margin-left:10px;
     
 }
-<<<<<<< HEAD
-=======
 .title h2{
     margin-bottom:0;
     padding-bottom: 4px;
@@ -123,7 +109,6 @@ a.nav-link i{
     margin-left:10px;
     
 }
->>>>>>> twitter/UI-fix
 
 .body{
     border:1px solid #ced4da;
@@ -172,11 +157,7 @@ position: relative;
 }
 .compose-tweet-btn{
     position:absolute;
-<<<<<<< HEAD
-    top:9.8rem;
-=======
     top:9.3rem;
->>>>>>> twitter/UI-fix
     right:2rem;
     border-radius: 20px 20px;
     padding:7px 20px;
