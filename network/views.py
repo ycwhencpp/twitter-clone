@@ -109,6 +109,7 @@ def view_profile(request,username):
     return render(request,"network/profile.html",{
         "profile":viewed_profile,
         "page_obj":page_obj,
+        "tweet_count":tweets.count()
     })
 
 @login_required()
