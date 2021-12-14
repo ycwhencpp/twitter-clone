@@ -11,7 +11,7 @@ edit_button.forEach((button) => {
 
     tweet_content.innerHTML = ` <form id="edit-form-${button.dataset.id}" data-id="${button.dataset.id}" class="edit-form" method="post" >
                       <textarea name="content" cols="40" rows="5" class="form-control content" 
-                      id="tweet-content-edit"  maxlength="1000" required="">${tweet_content.innerHTML}</textarea>
+                      id="tweet-content-edit" autofocus="on"  maxlength="1000" required="">${tweet_content.innerHTML}</textarea>
                       <input type="submit" class="btn btn-primary" value="Save">
                       </form> `;
 
@@ -45,7 +45,6 @@ edit_button.forEach((button) => {
 const like_button = document.querySelectorAll(".like-button");
 like_button.forEach((button) => {
   button.onclick = () => {
-    console.log(button.innerHTML);
     const id = button.dataset.id;
     const like_count = document.querySelector(`#like-post-${id}`);
     fetch("/editpost", {
@@ -60,8 +59,12 @@ like_button.forEach((button) => {
         if (data.error) console.log(data.error);
         else {
           console.log(data.message);
-          like_count.innerHTML = `Likes:${data.likes_count}`;
-          button.innerHTML == "Like" ? (button.innerHTML = "Unlike") : (button.innerHTML = "Like");
+          like_count.innerHTML = `${data.likes_count}`;
+          if (button.innerHTML == '<i class="fas fa-heart" aria-hidden="true"></i>') {
+            button.innerHTML = '<i class="far fa-heart" aria-hidden="true"></i>';
+          } else {
+            button.innerHTML = '<i class="fas fa-heart" aria-hidden="true"></i>';
+          }
         }
       });
   };
@@ -86,8 +89,12 @@ rt_button.forEach((button) => {
         if (data.error) console.log(data.error);
         else {
           console.log(data.message);
-          rt_count.innerHTML = `Retweets:${data.retweetcount}`;
-          button.innerHTML == "Retweet" ? (button.innerHTML = "Undo") : (button.innerHTML = "Retweet");
+          rt_count.innerHTML = `${data.retweetcount}`;
+          if (button.innerHTML == '<i class="fas fa-retweet retweet-true" aria-hidden="true"></i>') {
+            button.innerHTML = '<i class="fas fa-retweet" aria-hidden="true"></i>';
+          } else {
+            button.innerHTML = '<i class="fas fa-retweet retweet-true" aria-hidden="true"></i>';
+          }
         }
       });
   };

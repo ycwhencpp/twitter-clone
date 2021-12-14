@@ -2,29 +2,63 @@
 {% load static %}
 {% block body %}
 
-<div class="profile" id="profile-{{profile.id}}">
-    <h3 class="username">{{profile.username}}</h3>
-    <p class="followers"> followers:{{profile.followers.all.count}}</p>
-    <p class="following"> following:{{profile.is_following.all.count}}</p>
-    <button  class="follow-button"data-username={{profile.username}}>Follow</button>
-</div>
-<div class="own-tweets tweets">
-    {% for tweet in page_obj %} 
-    <div class="tweet" id='tweet-{{tweet.id}}' onclick="location.href='{% url 'view_tweet' tweet.id %}'">
-        <div class="tweet-info">
-            <p class="tweet-author" onclick="location.href='{% url 'view_profile' tweet.author %}'">Posted By:{{tweet.author}}</p>
-            <p class="timestamp">Created at:{{tweet.time_stamp}}</p>
+
+<div class="profile-page">
+      <div class="title sticky-top pt-3">
+        <h2>Profile</h2>
+      </div>
+    
+      <div class="profile" id="profile-{{profile.id}}">
+        <h3 class="username">{{profile.username}}</h3>
+        <p class="followers"> followers:{{profile.followers.all.count}}</p>
+        <p class="following"> following:{{profile.is_following.all.count}}</p>
+        <button  class="follow-button"data-username={{profile.username}}>Follow</button>
+      </div>
+      <div class=" user-tweets tweets ">
+        {% for tweet in page_obj %}
+        <div class=" tweet card   mb-3 border-light " id='tweet-{{tweet.id}}'>
+          <div class="card-body">
+            <div class="card-title d-flex justify-content-between  "> 
+              <div class="tweet-info d-flex">
+                <h5>{{tweet.author}}</h5> <span class="ml-2">@{{tweet.author.username}}</span> <span class="ml-1">-</span> <span>{{tweet.time_stamp|date:"d M"}}</span>
+              </div>
+              {% if request.user == tweet.author %}
+                <button class="edit_button " data-id="{{tweet.id}}">Edit</button>
+              {% endif %}
+            </div>
+              <p class="card-text">{{tweet.content}}</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+          <div class="card-footer text-muted d-flex justify-content-around">
+    
+            <div class="like">
+              {% if request.user in tweet.liked.all %}
+                <button class="like-button" data-id="{{tweet.id}}"><i class="fas fa-heart" aria-hidden="true"></i></button>
+              {% else %}
+                <button class="like-button" data-id="{{tweet.id}}"><i class="far fa-heart" aria-hidden="true"></i></button>
+              {% endif %}
+              <span  id="like-post-{{tweet.id}}" class="like-count">{{tweet.likecount}}</span>
+              
+            </div>
+            <div class="retweet">
+              {% if user in tweet.retweet.all %}
+              <button class="rt-button " data-id="{{tweet.id}}"><i class="fas fa-retweet retweet-true" aria-hidden="true"></i></button>
+              {% else %}
+              <button class="rt-button" data-id="{{tweet.id}}"><i class="fas fa-retweet" aria-hidden="true"></i></button>
+              {% endif %}
+              <span  id="rt-post-{{tweet.id}}" class="rt-count">{{tweet.retweetcount}}</span>
+              
+            </div>
+          </div>
         </div>
-        <h3 class="tweet-content" id="tweet-content-{{tweet.id}}">{{tweet.content}}</h3>
-        <button class="edit_button " data-id="{{tweet.id}}">Edit</button>
-        <p  id="like-post-{{tweet.id}}" class="like-count">Likes:{{tweet.likecount}}</p>
-        <button class="like-button" data-id="{{tweet.id}}">Like</button>
-        <p  id="rt-post-{{tweet.id}}" class="rt-count">Retweets:{{tweet.retweetcount}}</p>
-        <button class="rt-button" data-id="{{tweet.id}}">Retweet</button>
+        {% empty %}
+        <div class="empty-tweets d-flex flex-column align-items-center mt-3 ">
+            <p>Oops!! seems like your followers dont have any tweet or you havent followed anyone.</p>
+            <p>Follow someone to view their tweets or view all tweets <a href="{% url 'index' %}">Here</a></p>
+        </div>
+        {% endfor %}
     </div>
-    <hr>
-    {% endfor %}
-</div>
+
 
 <!-- pagination -->
 
@@ -62,4 +96,6 @@
     </ul>
 </nav>
 <script src="{% static 'network/profile.js' %}"></script>
+</div>
 {% endblock %}
+

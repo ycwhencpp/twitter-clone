@@ -1,0 +1,168 @@
+html{
+    scroll-behavior: smooth;
+}
+body{
+    font-family: "Poppins",sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding:0;
+}
+.sidebar{
+    height:100vh;
+    padding:0 40px;
+    width:100%;
+   
+}
+.logo{
+    margin-bottom:32px;
+    margin-left:8px;
+}
+.logo i{
+        font-size:35px;
+        color:#007bff;
+
+}
+li.nav-item {
+    display: inline-block;
+    display: flex;
+    margin-bottom: 7px;
+    
+}
+i{
+    width:20px;
+}
+
+a.nav-link {
+    padding: 12px 12px;
+    color:#111;
+    font-size:18px;
+    font-weight: 400;
+}
+a.nav-link i{
+    color:rgb(73, 72, 72);
+}
+.nav-link:hover{
+    border-radius:40px 40px;
+    background-color: rgb(235, 228, 228);
+}
+.title{
+    background:white;
+    width:100%; 
+    border-bottom:.5px solid #ced4da;
+    padding-bottom: 10px;
+
+}
+.body{
+    border:1px solid #ced4da;
+    border-top: 0;
+    background: #ced4da;
+    border-bottom: 1px solid #ced4da;
+     
+}
+
+.tweet{
+    width:80% !important;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 12px !important;
+    box-shadow: 0px 6px 17px 7px rgb(0 0 0 / 12%);
+  
+}
+.retweet-true{
+    color:rgb(0, 186, 124);  
+}
+.title h2{
+    margin-bottom:0;
+    padding-bottom: 8px;
+    padding:10px ;
+    margin-left:10px;
+    
+}
+.compose-tweet-textarea{
+position: relative;
+
+}
+.form-control{
+    border:none !important;
+    outline:none !important;
+    border-radius: 0;
+
+}
+.form-control:focus{
+    box-shadow:none;
+    border-color:#ced4da;
+}
+.compose-tweet-btn{
+    position:absolute;
+    top:10.5rem;
+    right:2rem;
+    border-radius: 20px 20px;
+    padding:7px 20px;
+}
+button,button:active,button:focus{
+    outline:none;
+    border:none;
+    background: none;
+    padding: 5px 7px;
+}
+i{
+    font-size:22.5px;
+    color:gray;
+}
+.fa-heart.fas{
+    color: rgb(249, 24, 128);
+}
+.like:hover button i ,.like:hover  {
+   color: rgb(249, 24, 128);
+   
+}
+.retweet:hover button i ,.retweet:hover  {
+    color:rgb(0, 186, 124);
+}
+.right-side{
+    height:100vh;
+}
+.web-image{
+    height:130px;
+    width:150px;
+    text-align: center;
+}
+.web-image{
+    padding:10px 15px ;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.web-image img{
+    height:100px;
+    width:120px;
+    object-fit:cover;
+}
+.web-link{
+    align-self: center;
+}
+.card-border{
+    border-bottom: 1px solid #ced4da;
+}
+.web-link a{
+    font-weight:500;
+    color:#000;
+}
+.register-btn,.login-btn,.logout-btn{
+    padding:10px 20px ;
+    color:#00acee;
+    background:#fff;
+    border:1px solid #00acee;
+    
+    border-radius: 30px;
+
+    font-weight: 500;
+    margin:0 40px;
+
+}
+.register-btn:hover,.login-btn:hover,.logout-btn:hover{
+    background:#00acee;
+    color:#fff;
+}
+.logout-btn{
+    padding:10px 50px;
+}
