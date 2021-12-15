@@ -115,7 +115,7 @@ def view_profile(request,username):
 @login_required()
 def following(request):
 
-    # getting current_user profile and its following info
+    # getting current_user profile and its following info.
     current_user=User.objects.get(username=request.user.username)
     current_user_following=current_user.is_following.all()
 
